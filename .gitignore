@@ -1,0 +1,23 @@
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Claude Code — personal/local overrides only; .claude/settings.json IS committed
+.claude/settings.local.json
+
+# Lighthouse CI artifacts
+.lighthouseci/

@@ -1,0 +1,30 @@
+{
+  "name": "ronankeane-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ronankeane.com — Astro + MDX + Tailwind 4 site, optimized for organic search and LLM citation. Managed via Claude Code workflows.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro",
+    "precommit": "node scripts/precommit-checks.mjs",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "@astrojs/check": "^0.9.4",
+    "@fontsource-variable/geist": "^5.1.0",
+    "@fontsource-variable/geist-mono": "^5.1.0",
+    "typescript": "^5.7.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "zod": "^3.23.0",
+    "husky": "^9.1.0"
+  }
+}

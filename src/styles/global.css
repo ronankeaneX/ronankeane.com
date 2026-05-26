@@ -1,0 +1,50 @@
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "tailwindcss";
+
+@theme {
+  /* === Surfaces (light primary, warm off-white) === */
+  --color-bg: #FAF7F2;
+  --color-bg-alt: #F2EDE4;
+  --color-surface: #FFFFFF;
+
+  /* === Ink (typography) === */
+  --color-ink: #1A1815;
+  --color-ink-muted: #5C574F;
+  --color-ink-subtle: #8A857B;
+
+  /* === Rules and dividers === */
+  --color-rule: #E5DFD4;
+
+  /* === Accent (burnt orange — locked v2 brand 2026-05-22) === */
+  --color-accent: #C2410C;
+  --color-accent-deep: #9A3412;
+  --color-accent-soft: #FED7AA;
+
+  --color-secondary: #44403C;
+
+  /* === Typography (all Geist — no serif) === */
+  --font-display: "Geist Variable", system-ui, sans-serif;
+  --font-body: "Geist Variable", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.55;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  /* Subtle 1px hairline grid — replaces v1 paper-grain */
+  background-image:
+    linear-gradient(to right, rgba(26, 24, 21, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26, 24, 21, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}

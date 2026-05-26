@@ -1,0 +1,7 @@
+# 301 redirects for ronankeane.com cutover from WordPress to Astro.
+# Cloudflare Pages format: <source> <destination> <status>
+# Populated during Phase 5 migration as URLs change.
+
+# Examples (uncomment and adjust when migrating these pages):
+# /blog-3/* /blog/:splat 301
+# /the-120-page-ai-strategy-zero-friction/ /resources/120-page-ai-strategy/ 301
