@@ -95,9 +95,21 @@ for (const file of scanFiles) {
   }
 }
 
-// === 3. Placeholder links (MDX only) ===
-const placeholderPatterns = [
-  { re: /href\s*=\s*["']#["']/g, desc: 'href="#"' },
+// === 3a. Placeholder href="#" — all published files (MDX + templates) ===
+for (const file of scanFiles) {
+  const content = read(file);
+  if (!content) continue;
+  const re = /href\s*=\s*["']#["']/g;
+  let m;
+  while ((m = re.exec(content)) !== null) {
+    failures.push(
+      `${file}:${lineOf(content, m.index)} — Placeholder href="#" found. Every link must point somewhere real or be removed.`,
+    );
+  }
+}
+
+// === 3b. Markdown placeholders + TODO/FIXME (MDX only) ===
+const mdxPlaceholders = [
   { re: /\]\(\s*#\s*\)/g, desc: "markdown link (#)" },
   { re: /\bTODO\b/g, desc: "TODO marker" },
   { re: /\bFIXME\b/g, desc: "FIXME marker" },
@@ -106,7 +118,7 @@ const placeholderPatterns = [
 for (const file of mdxFiles) {
   const content = read(file);
   if (!content) continue;
-  for (const { re, desc } of placeholderPatterns) {
+  for (const { re, desc } of mdxPlaceholders) {
     let m;
     while ((m = re.exec(content)) !== null) {
       failures.push(
