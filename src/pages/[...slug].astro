@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import SchemaOrg from "../components/SchemaOrg.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("pages", ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true,
+  );
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, schema_type, faq, noindex, publishDate, lastUpdated } = entry.data;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout
+  title={`${title} — Ronan Keane`}
+  description={description}
+  noindex={noindex}
+  publishDate={publishDate instanceof Date ? publishDate : new Date(String(publishDate))}
+  lastUpdated={lastUpdated instanceof Date ? lastUpdated : new Date(String(lastUpdated))}
+>
+  <SchemaOrg
+    slot="head"
+    url={canonical}
+    title={`${title} — Ronan Keane`}
+    description={description}
+    schemaTypes={schema_type}
+    publishDate={publishDate instanceof Date ? publishDate : new Date(String(publishDate))}
+    lastUpdated={lastUpdated instanceof Date ? lastUpdated : new Date(String(lastUpdated))}
+    faqItems={faq}
+    breadcrumbs={[{ name: title, url: canonical }]}
+  />
+
+  <div class="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
+    <div class="prose-content">
+      <Content />
+    </div>
+  </div>
+</PageLayout>

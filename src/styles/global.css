@@ -29,6 +29,87 @@
   --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 }
 
+/* === Prose content — MDX body rendering === */
+.prose-content {
+  color: var(--color-ink);
+  line-height: 1.7;
+  font-size: 1.0625rem;
+}
+.prose-content h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-ink);
+}
+.prose-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.prose-content h4 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-muted);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-content p {
+  margin-bottom: 1.25rem;
+}
+.prose-content ul, .prose-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.prose-content ul { list-style-type: disc; }
+.prose-content ol { list-style-type: decimal; }
+.prose-content li { margin-bottom: 0.4rem; }
+.prose-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+.prose-content a:hover {
+  color: var(--color-accent-deep);
+  text-decoration-color: var(--color-accent-deep);
+}
+.prose-content blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1.25rem;
+  color: var(--color-ink-muted);
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+.prose-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-bg-alt);
+  padding: 0.15em 0.4em;
+  border-radius: 2px;
+}
+.prose-content pre {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.prose-content pre code { background: none; padding: 0; }
+.prose-content strong { font-weight: 600; color: var(--color-ink); }
+.prose-content hr {
+  border: none;
+  border-top: 1px solid var(--color-rule);
+  margin: 2.5rem 0;
+}
+
 html {
   scroll-behavior: smooth;
 }

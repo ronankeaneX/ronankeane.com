@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import SchemaOrg from "../../components/SchemaOrg.astro";
+
+const canonical = new URL("/blog/", Astro.site).toString();
+
+const posts = (
+  await getCollection("blog", ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true,
+  )
+).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<PageLayout
+  title="AI Implementation Blog — Ronan Keane"
+  description="Practical articles on AI strategy, implementation, and adoption for B2B companies. No hype — just what works, backed by real engagements."
+>
+  <SchemaOrg
+    slot="head"
+    url={canonical}
+    title="AI Implementation Blog — Ronan Keane"
+    description="Practical articles on AI strategy, implementation, and adoption for B2B companies. No hype — just what works, backed by real engagements."
+    schemaTypes={["WebPage"]}
+    breadcrumbs={[{ name: "Blog", url: canonical }]}
+  />
+
+  <div class="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
+
+    <header class="mb-14">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-4 inline-flex items-center gap-2">
+        <span class="w-6 h-px bg-accent"></span>
+        Writing
+      </p>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-ink mb-6">
+        AI Implementation Blog
+      </h1>
+      <p class="text-lg text-ink-muted leading-relaxed max-w-[56ch]">
+        Practical articles on AI strategy and implementation. No hype — what actually works, backed by real engagements.
+      </p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="text-ink-muted">Posts coming soon.</p>
+    ) : (
+      <ul class="divide-y divide-rule">
+        {posts.map((post) => {
+          const pubDate = post.data.publishDate instanceof Date
+            ? post.data.publishDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+            : String(post.data.publishDate).slice(0, 10);
+
+          return (
+            <li class="py-8 first:pt-0">
+              <a href={`/blog/${post.id}/`} class="group block">
+                <div class="flex flex-wrap gap-2 mb-3">
+                  {post.data.categories.map((cat) => (
+                    <span class="font-mono text-xs uppercase tracking-widest text-ink-subtle">
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+                <h2 class="font-display text-xl font-semibold text-ink group-hover:text-accent transition-colors mb-2 leading-snug">
+                  {post.data.title}
+                </h2>
+                <p class="text-ink-muted text-sm leading-relaxed mb-3 max-w-[60ch]">
+                  {post.data.description}
+                </p>
+                <p class="font-mono text-xs uppercase tracking-widest text-ink-subtle">
+                  {pubDate}
+                </p>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+
+  </div>
+</PageLayout>

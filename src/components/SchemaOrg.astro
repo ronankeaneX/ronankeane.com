@@ -1,0 +1,195 @@
+---
+// Generates JSON-LD structured data from page frontmatter.
+// Used inside BaseLayout's named "head" slot — never directly in <body>.
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Breadcrumb {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  url: string;
+  title: string;
+  description: string;
+  schemaTypes: string[];
+  publishDate?: Date;
+  lastUpdated?: Date;
+  city?: string;
+  state?: string;
+  stateAbbr?: string;
+  serviceAreas?: string[];
+  faqItems?: FAQItem[];
+  breadcrumbs?: Breadcrumb[];
+}
+
+const {
+  url,
+  title,
+  description,
+  schemaTypes,
+  publishDate,
+  lastUpdated,
+  city,
+  state,
+  stateAbbr,
+  serviceAreas,
+  faqItems,
+  breadcrumbs,
+} = Astro.props;
+
+const SITE    = "https://ronankeane.com";
+const PERSON  = `${SITE}/#person`;
+const WEBSITE = `${SITE}/#website`;
+const BIZ     = `${SITE}/#business`;
+const OG_IMG  = `${SITE}/images/ronan-keane-og.jpg`;
+
+const graphs: Record<string, unknown>[] = [];
+
+// WebSite — anchors the graph, enables sitelinks potential
+graphs.push({
+  "@type": "WebSite",
+  "@id": WEBSITE,
+  url: `${SITE}/`,
+  name: "Ronan Keane",
+  publisher: { "@id": PERSON },
+});
+
+// WebPage — every page
+graphs.push({
+  "@type": "WebPage",
+  "@id": `${url}#webpage`,
+  url,
+  name: title,
+  description,
+  isPartOf: { "@id": WEBSITE },
+  about: { "@id": PERSON },
+  ...(publishDate  && { datePublished: publishDate.toISOString()  }),
+  ...(lastUpdated  && { dateModified:  lastUpdated.toISOString()  }),
+});
+
+// Person — homepage and about page
+if (schemaTypes.includes("Person")) {
+  graphs.push({
+    "@type": "Person",
+    "@id": PERSON,
+    name: "Ronan Keane",
+    url: `${SITE}/`,
+    image: OG_IMG,
+    jobTitle: "AI Strategy & Implementation Consultant",
+    description:
+      "AI strategy and implementation consultant helping SMB and mid-market B2B companies build operational advantage through AI. Creator of the PRIME framework.",
+    address: {
+      "@type": "PostalAddress",
+      addressRegion: "NC",
+      addressCountry: "US",
+    },
+    knowsAbout: [
+      "AI Strategy",
+      "AI Implementation",
+      "Revenue Operations",
+      "B2B Sales Operations",
+      "Change Management",
+      "Generative AI",
+    ],
+  });
+}
+
+// ProfessionalService — services pages and homepage
+if (schemaTypes.includes("ProfessionalService")) {
+  graphs.push({
+    "@type": ["ProfessionalService", "LocalBusiness"],
+    "@id": BIZ,
+    name: "Ronan Keane — AI Strategy & Implementation",
+    url: SITE,
+    description:
+      "AI strategy and implementation consulting for SMB and mid-market B2B companies. The PRIME framework drives AI adoption past 70%.",
+    founder: { "@id": PERSON },
+    areaServed: "United States",
+    address: {
+      "@type": "PostalAddress",
+      addressRegion: "NC",
+      addressCountry: "US",
+    },
+    image: OG_IMG,
+  });
+}
+
+// LocalBusiness — geo pages with city-specific data
+if (schemaTypes.includes("LocalBusiness") && city && state) {
+  graphs.push({
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "@id": `${url}#localbusiness`,
+    name: `Ronan Keane — AI Consultant ${city}, ${state}`,
+    url,
+    description,
+    founder: { "@id": PERSON },
+    areaServed: serviceAreas?.length
+      ? serviceAreas.map((a) => ({ "@type": "City", name: a }))
+      : [{ "@type": "City", name: city }],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: city,
+      addressRegion: stateAbbr ?? state,
+      addressCountry: "US",
+    },
+    image: OG_IMG,
+  });
+}
+
+// Article / BlogPosting — blog, topics, case studies, resources
+if (schemaTypes.some((t) => ["Article", "BlogPosting"].includes(t))) {
+  const type = schemaTypes.includes("BlogPosting") ? "BlogPosting" : "Article";
+  graphs.push({
+    "@type": type,
+    "@id": `${url}#article`,
+    url,
+    headline: title,
+    description,
+    author:           { "@id": PERSON },
+    publisher:        { "@id": PERSON },
+    mainEntityOfPage: { "@id": `${url}#webpage` },
+    image: OG_IMG,
+    ...(publishDate && { datePublished: publishDate.toISOString() }),
+    ...(lastUpdated && { dateModified:  lastUpdated.toISOString() }),
+  });
+}
+
+// FAQPage — only when structured FAQ data is present in frontmatter
+if (faqItems && faqItems.length > 0) {
+  graphs.push({
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    mainEntity: faqItems.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  });
+}
+
+// BreadcrumbList — all non-home pages
+if (breadcrumbs && breadcrumbs.length > 0) {
+  graphs.push({
+    "@type": "BreadcrumbList",
+    "@id": `${url}#breadcrumbs`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
+      ...breadcrumbs.map(({ name, url: item }, i) => ({
+        "@type": "ListItem",
+        position: i + 2,
+        name,
+        item,
+      })),
+    ],
+  });
+}
+
+const ld = { "@context": "https://schema.org", "@graph": graphs };
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />

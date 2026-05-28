@@ -1,0 +1,134 @@
+---
+import { getCollection, render } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import SchemaOrg from "../../components/SchemaOrg.astro";
+
+const CALENDLY = "https://calendly.com/ronankeane/ai-revenue-acceleration-readiness-discovery-call";
+
+const PRIME_LABELS: Record<string, string> = {
+  P: "Potential Mapping",
+  R: "Roadmap & Strategy",
+  I: "Implementation Planning",
+  M: "Migration & Execution",
+  E: "Enablement & Adoption",
+};
+
+export async function getStaticPaths() {
+  const entries = await getCollection("case-studies", ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true,
+  );
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const {
+  title, description, client_name, client_industry, engagement_type,
+  key_metrics, testimonial, prime_phases_used, schema_type, faq,
+  publishDate, lastUpdated, noindex,
+} = entry.data;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout
+  title={`${title} — Ronan Keane`}
+  description={description}
+  noindex={noindex}
+  publishDate={publishDate instanceof Date ? publishDate : new Date(String(publishDate))}
+  lastUpdated={lastUpdated instanceof Date ? lastUpdated : new Date(String(lastUpdated))}
+>
+  <SchemaOrg
+    slot="head"
+    url={canonical}
+    title={`${title} — Ronan Keane`}
+    description={description}
+    schemaTypes={schema_type}
+    publishDate={publishDate instanceof Date ? publishDate : new Date(String(publishDate))}
+    lastUpdated={lastUpdated instanceof Date ? lastUpdated : new Date(String(lastUpdated))}
+    faqItems={faq}
+    breadcrumbs={[{ name: title, url: canonical }]}
+  />
+
+  <article class="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-4 inline-flex items-center gap-2">
+        <span class="w-6 h-px bg-accent"></span>
+        Case Study &middot; {client_industry}
+      </p>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-ink mb-4">
+        {title}
+      </h1>
+      <p class="font-mono text-xs uppercase tracking-widest text-ink-muted">
+        {client_name} &middot; {engagement_type}
+      </p>
+    </header>
+
+    <!-- Key metrics -->
+    {key_metrics && key_metrics.length > 0 && (
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-rule border border-rule rounded-[2px] mb-12 overflow-hidden">
+        {key_metrics.map(({ label, value }) => (
+          <div class="bg-bg px-6 py-7">
+            <p class="font-display text-4xl font-semibold text-accent leading-none mb-2">{value}</p>
+            <p class="font-mono text-xs uppercase tracking-widest text-ink-muted">{label}</p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Body -->
+    <div class="prose-content">
+      <Content />
+    </div>
+
+    <!-- Testimonial -->
+    {testimonial && (
+      <blockquote class="border-l-2 border-accent pl-6 my-12">
+        <p class="text-xl text-ink leading-relaxed mb-4">"{testimonial.quote}"</p>
+        <footer class="font-mono text-xs uppercase tracking-widest text-ink-muted">
+          — {testimonial.attribution}{testimonial.role ? `, ${testimonial.role}` : ""}
+        </footer>
+      </blockquote>
+    )}
+
+    <!-- PRIME phases -->
+    {prime_phases_used && prime_phases_used.length > 0 && (
+      <aside class="border-t border-rule mt-12 pt-8">
+        <p class="font-mono text-xs uppercase tracking-widest text-ink-subtle mb-4">PRIME phases engaged</p>
+        <div class="flex flex-wrap gap-2">
+          {prime_phases_used.map((p) => (
+            <span class="font-mono text-xs uppercase tracking-widest border border-rule px-3 py-1 rounded-[2px] text-ink-muted">
+              {p} — {PRIME_LABELS[p]}
+            </span>
+          ))}
+        </div>
+      </aside>
+    )}
+
+    <!-- CTA -->
+    <section class="bg-bg-alt border border-rule rounded-[2px] px-8 py-10 mt-16">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-3">/get similar results</p>
+      <h2 class="font-display text-2xl font-semibold text-ink mb-3">Want results like these?</h2>
+      <p class="text-ink-muted mb-6 max-w-[52ch]">
+        Schedule a 20-minute call to talk through your specific situation — no pitch deck, no generic advice.
+      </p>
+      <div class="flex flex-wrap gap-4 items-center">
+        <a
+          href={CALENDLY}
+          class="bg-accent hover:bg-accent-deep text-white px-6 py-3 rounded-[2px] font-medium transition-colors inline-flex items-center gap-2"
+        >
+          Schedule a consultation →
+        </a>
+        <a href="/contact/" class="text-ink hover:text-accent border-b border-ink hover:border-accent px-2 py-3 font-medium transition-colors">
+          Send a message
+        </a>
+      </div>
+    </section>
+
+  </article>
+</PageLayout>

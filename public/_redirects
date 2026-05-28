@@ -1,7 +1,21 @@
-# 301 redirects for ronankeane.com cutover from WordPress to Astro.
+# 301 redirects for ronankeane.com — WordPress to Astro cutover
 # Cloudflare Pages format: <source> <destination> <status>
-# Populated during Phase 5 migration as URLs change.
 
-# Examples (uncomment and adjust when migrating these pages):
-# /blog-3/* /blog/:splat 301
-# /the-120-page-ai-strategy-zero-friction/ /resources/120-page-ai-strategy/ 301
+# Blog canonical (WordPress registered both /blog/ and /blog-3/)
+/blog-3/*  /blog/:splat  301
+
+# Resource URL cleanup
+/the-120-page-ai-strategy-zero-friction/  /resources/120-page-ai-strategy/  301
+
+# PRIME framework — old homepage anchor now has its own page
+/prime-framework/  /framework/  301
+/#prime-framework  /framework/  301
+
+# Catch trailing-slash variants for WordPress pages that may lack them
+/ai-consultant   /ai-consultant/   301
+/copilot-training   /services/copilot-training/   301
+/copilot-studio-training   /services/copilot-studio-training/   301
+/chatgpt-training   /services/chatgpt-training/   301
+/genai-for-demand-generation   /resources/genai-for-demand-generation/   301
+/go-to-market-at-warp-speed   /resources/go-to-market-at-warp-speed/   301
+/ai-ready-revenue-quiz   /resources/ai-ready-revenue-quiz/   301

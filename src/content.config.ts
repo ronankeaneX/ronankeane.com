@@ -17,6 +17,7 @@ const baseFields = {
     "transactional",
   ]),
   schema_type: z.array(z.string()).min(1),
+  faq: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
   draft: z.boolean().default(false),
   noindex: z.boolean().default(false),
 };

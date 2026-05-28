@@ -1,0 +1,197 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import SchemaOrg from "../components/SchemaOrg.astro";
+
+const CALENDLY   = "https://calendly.com/ronankeane/ai-revenue-acceleration-readiness-discovery-call";
+const FORMSPREE  = import.meta.env.PUBLIC_FORMSPREE_ID
+  ? `https://formspree.io/f/${import.meta.env.PUBLIC_FORMSPREE_ID}`
+  : "";
+const TURNSTILE  = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
+const canonical  = new URL("/contact/", Astro.site).toString();
+---
+
+<PageLayout
+  title="Contact Ronan Keane — AI Strategy & Implementation Consultant"
+  description="Send a message or schedule a 20-minute consultation call. No pitch decks. Ronan Keane helps SMB and mid-market B2B companies implement AI effectively."
+>
+  <SchemaOrg
+    slot="head"
+    url={canonical}
+    title="Contact Ronan Keane — AI Strategy & Implementation Consultant"
+    description="Send a message or schedule a 20-minute consultation call. No pitch decks. Ronan Keane helps SMB and mid-market B2B companies implement AI effectively."
+    schemaTypes={["WebPage"]}
+    breadcrumbs={[{ name: "Contact", url: canonical }]}
+  />
+
+  <div class="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
+
+    <!-- Header -->
+    <header class="mb-14">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-4 inline-flex items-center gap-2">
+        <span class="w-6 h-px bg-accent"></span>
+        Get in touch
+      </p>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-ink mb-6">
+        Let's talk.
+      </h1>
+      <p class="text-lg text-ink-muted leading-relaxed max-w-[56ch]">
+        Two ways to reach me. Senior B2B buyers often want to send a note first — both options are here.
+      </p>
+    </header>
+
+    <!-- Two-column options -->
+    <div class="grid md:grid-cols-2 gap-6 mb-16">
+
+      <!-- Option 1: Schedule -->
+      <div class="border border-rule rounded-[2px] px-7 py-8">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent mb-3">/fastest path</p>
+        <h2 class="font-display text-xl font-semibold text-ink mb-3">Schedule a consultation</h2>
+        <p class="text-ink-muted text-sm leading-relaxed mb-6">
+          20 minutes. No pitch deck. Direct conversation about where your team is and what's blocking progress.
+        </p>
+        <a
+          href={CALENDLY}
+          class="bg-accent hover:bg-accent-deep text-white px-6 py-3 rounded-[2px] font-medium transition-colors inline-flex items-center gap-2 w-full justify-center"
+        >
+          Book a time →
+        </a>
+      </div>
+
+      <!-- Option 2: Message -->
+      <div class="border border-rule rounded-[2px] px-7 py-8">
+        <p class="font-mono text-xs uppercase tracking-widest text-ink-subtle mb-3">/send a message</p>
+        <h2 class="font-display text-xl font-semibold text-ink mb-3">Send a message</h2>
+        <p class="text-ink-muted text-sm leading-relaxed mb-6">
+          Prefer to send a note first? Use the form below. I respond within one business day.
+        </p>
+        <a
+          href="#contact-form"
+          class="border border-ink hover:border-accent text-ink hover:text-accent px-6 py-3 rounded-[2px] font-medium transition-colors inline-flex items-center gap-2 w-full justify-center"
+        >
+          Jump to form ↓
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Contact form -->
+    <section id="contact-form" class="border-t border-rule pt-14">
+      <h2 class="font-display text-2xl font-semibold text-ink mb-8">Send a message</h2>
+
+      {FORMSPREE ? (
+        <form
+          action={FORMSPREE}
+          method="POST"
+          class="space-y-6"
+        >
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label for="first-name" class="font-mono text-xs uppercase tracking-widest text-ink-muted block mb-2">
+                First name <span class="text-accent">*</span>
+              </label>
+              <input
+                type="text"
+                id="first-name"
+                name="first_name"
+                required
+                autocomplete="given-name"
+                class="w-full border border-rule bg-surface text-ink px-4 py-3 rounded-[2px] focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+            <div>
+              <label for="last-name" class="font-mono text-xs uppercase tracking-widest text-ink-muted block mb-2">
+                Last name <span class="text-accent">*</span>
+              </label>
+              <input
+                type="text"
+                id="last-name"
+                name="last_name"
+                required
+                autocomplete="family-name"
+                class="w-full border border-rule bg-surface text-ink px-4 py-3 rounded-[2px] focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label for="company" class="font-mono text-xs uppercase tracking-widest text-ink-muted block mb-2">
+                Company <span class="text-accent">*</span>
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                required
+                autocomplete="organization"
+                class="w-full border border-rule bg-surface text-ink px-4 py-3 rounded-[2px] focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+            <div>
+              <label for="title" class="font-mono text-xs uppercase tracking-widest text-ink-muted block mb-2">
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                autocomplete="organization-title"
+                class="w-full border border-rule bg-surface text-ink px-4 py-3 rounded-[2px] focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="font-mono text-xs uppercase tracking-widest text-ink-muted block mb-2">
+              Email address <span class="text-accent">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="email"
+              class="w-full border border-rule bg-surface text-ink px-4 py-3 rounded-[2px] focus:outline-none focus:border-accent transition-colors"
+            />
+          </div>
+
+          <div>
+            <label for="note" class="font-mono text-xs uppercase tracking-widest text-ink-muted block mb-2">
+              Message
+            </label>
+            <textarea
+              id="note"
+              name="note"
+              rows={5}
+              class="w-full border border-rule bg-surface text-ink px-4 py-3 rounded-[2px] focus:outline-none focus:border-accent transition-colors resize-y"
+              placeholder="What are you working on? What's blocking progress?"
+            ></textarea>
+          </div>
+
+          {TURNSTILE && (
+            <>
+              <div class="cf-turnstile" data-sitekey={TURNSTILE}></div>
+              <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+            </>
+          )}
+
+          <button
+            type="submit"
+            class="bg-accent hover:bg-accent-deep text-white px-7 py-4 rounded-[2px] font-medium transition-colors inline-flex items-center gap-2"
+          >
+            Send message →
+          </button>
+        </form>
+      ) : (
+        <div class="border border-rule rounded-[2px] px-6 py-8 bg-bg-alt">
+          <p class="font-mono text-xs uppercase tracking-widest text-ink-subtle mb-3">Form not yet configured</p>
+          <p class="text-ink-muted">
+            Set the <code class="font-mono text-sm bg-surface border border-rule px-2 py-0.5 rounded-[2px]">PUBLIC_FORMSPREE_ID</code> environment variable to activate the contact form.
+            In the meantime, <a href={CALENDLY} class="text-accent hover:underline">schedule a call directly</a>.
+          </p>
+        </div>
+      )}
+    </section>
+
+  </div>
+</PageLayout>

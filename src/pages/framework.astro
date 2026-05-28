@@ -1,0 +1,135 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import SchemaOrg from "../components/SchemaOrg.astro";
+
+const CALENDLY = "https://calendly.com/ronankeane/ai-revenue-acceleration-readiness-discovery-call";
+const canonical = new URL("/framework/", Astro.site).toString();
+
+const phases = [
+  {
+    letter: "P",
+    name: "Potential Mapping & Assessment",
+    body: `Before anyone recommends a tool, we map the landscape. Where does AI actually create value in your business — not in theory, but in the specific workflows your team runs today?\n\nThis phase covers a structured review of your current processes, data assets, team capabilities, and strategic priorities. The output is a ranked list of AI opportunities with estimated effort and impact for each. You'll know exactly which problems are worth solving and which vendor pitches to ignore.`,
+    outputs: ["Prioritized AI opportunity map", "Effort vs. impact matrix", "Quick-win candidates for Phase I pilot"],
+  },
+  {
+    letter: "R",
+    name: "Roadmap & Strategy",
+    body: `Most AI strategies are either too vague ("we'll use AI to improve efficiency") or too tactical (a list of tools). Neither is useful.\n\nThis phase produces a 90-day execution plan tied to specific business outcomes. Priorities are sequenced by impact and dependencies — quick wins first, foundational investments second. You'll have a plan your team can execute without a dedicated transformation program or a change management consultant.`,
+    outputs: ["90-day execution roadmap", "Resource and budget estimates", "Success metrics per initiative"],
+  },
+  {
+    letter: "I",
+    name: "Implementation Planning",
+    body: `Good implementation planning prevents the most common failure mode: deploying AI tools that nobody uses six months later.\n\nThis phase selects the right tools for your specific use cases, designs the workflows, defines success criteria, and sequences the rollout. The plan accounts for your team's technical capacity, change tolerance, and existing systems — not an idealized scenario.`,
+    outputs: ["Tool selection rationale", "Workflow design documents", "Rollout sequence and dependencies"],
+  },
+  {
+    letter: "M",
+    name: "Migration & Execution",
+    body: `This is where I work alongside your team, not hand them a document and leave.\n\nHands-on implementation varies by engagement: building automation workflows in n8n or Clay, deploying custom Claude Code or ChatGPT integrations, configuring Copilot for your Microsoft 365 tenant, or migrating existing processes onto AI-augmented workflows. I build it, document it, and make sure your team understands what they've got.`,
+    outputs: ["Built and tested AI workflows", "System documentation", "Handover to your team with training"],
+  },
+  {
+    letter: "E",
+    name: "Enablement & Adoption",
+    body: `Implementation without adoption is expensive shelfware. Most AI initiatives fail here — not because the tool didn't work, but because nobody taught people how to use it in the context of their actual job.\n\nEnablement is role-specific training: what does this mean for your salespeople, your ops team, your marketers? How does it change their daily workflows? What does "good" look like? This phase also covers adoption measurement — how do you know whether AI is actually being used, and where it's delivering results.\n\nTargeted enablement is how we push adoption past 70%, which is the number that actually moves the business.`,
+    outputs: ["Role-specific training programs", "Adoption measurement framework", "Ongoing optimisation plan"],
+  },
+];
+---
+
+<PageLayout
+  title="The PRIME AI Implementation Framework — Ronan Keane"
+  description="A five-phase AI implementation framework — Potential Mapping, Roadmap, Implementation Planning, Migration & Execution, Enablement & Adoption — that drives adoption past 70%."
+>
+  <SchemaOrg
+    slot="head"
+    url={canonical}
+    title="The PRIME AI Implementation Framework — Ronan Keane"
+    description="A five-phase AI implementation framework — Potential Mapping, Roadmap, Implementation Planning, Migration & Execution, Enablement & Adoption — that drives adoption past 70%."
+    schemaTypes={["WebPage"]}
+    faqItems={[
+      { question: "What does PRIME stand for?", answer: "PRIME stands for Potential Mapping & Assessment, Roadmap & Strategy, Implementation Planning, Migration & Execution, and Enablement & Adoption." },
+      { question: "Do all five phases apply to every engagement?", answer: "Not always. Some engagements start mid-framework. If you already have a strategy but implementation has stalled, we start at M. If you have tools deployed but adoption is low, we start at E. The framework is a reference architecture, not a rigid sequence." },
+      { question: "How long does a full PRIME engagement take?", answer: "Phase P through R typically takes 2–4 weeks. Implementation timelines vary by scope — a focused workflow automation can be live in 30 days. Full-cycle engagements covering all five phases typically run 3–6 months." },
+      { question: "How is PRIME different from other AI consulting approaches?", answer: "Most frameworks focus on strategy and stop before execution. PRIME is built for companies that have had enough strategy — they need someone to help them actually build and adopt AI. Hands-on execution is the core of the engagement, not a follow-on phase." },
+    ]}
+    breadcrumbs={[{ name: "Framework", url: canonical }]}
+  />
+
+  <div class="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
+
+    <!-- Header -->
+    <header class="mb-16">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-4 inline-flex items-center gap-2">
+        <span class="w-6 h-px bg-accent"></span>
+        /the framework
+      </p>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-ink mb-6">
+        The PRIME Framework
+      </h1>
+      <p class="text-lg text-ink-muted leading-relaxed max-w-[56ch]">
+        A five-phase AI implementation process built for companies that have had enough strategy. Each phase is practical, sequenced for momentum, and designed to drive adoption past 70%.
+      </p>
+    </header>
+
+    <!-- Phase letters nav -->
+    <div class="grid grid-cols-5 gap-px bg-rule border border-rule rounded-[2px] overflow-hidden mb-16">
+      {phases.map(({ letter, name }) => (
+        <a href={`#phase-${letter.toLowerCase()}`} class="group bg-bg px-3 py-4 text-center hover:bg-bg-alt transition-colors">
+          <p class="font-display text-2xl font-semibold text-accent">{letter}</p>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-ink-subtle mt-1 hidden sm:block">{name.split(" ")[0]}</p>
+        </a>
+      ))}
+    </div>
+
+    <!-- Phase detail sections -->
+    <div class="space-y-16">
+      {phases.map(({ letter, name, body, outputs }) => (
+        <section id={`phase-${letter.toLowerCase()}`} class="scroll-mt-24">
+          <div class="flex items-baseline gap-4 mb-6">
+            <span class="font-display text-5xl font-semibold text-accent leading-none">{letter}</span>
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-ink-subtle">{`Phase ${["P","R","I","M","E"].indexOf(letter) + 1} of 5`}</p>
+              <h2 class="font-display text-2xl font-semibold text-ink">{name}</h2>
+            </div>
+          </div>
+          <div class="prose-content mb-6">
+            {body.split("\n\n").map((para) => (
+              <p class="mb-4 last:mb-0">{para}</p>
+            ))}
+          </div>
+          <div class="border border-rule rounded-[2px] px-6 py-5">
+            <p class="font-mono text-xs uppercase tracking-widest text-ink-subtle mb-3">Phase outputs</p>
+            <ul class="space-y-1">
+              {outputs.map((o) => (
+                <li class="font-mono text-xs text-ink-muted flex items-start gap-2">
+                  <span class="text-accent mt-0.5">—</span>{o}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <section class="bg-bg-alt border border-rule rounded-[2px] px-8 py-10 mt-16">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-3">/apply the framework</p>
+      <h2 class="font-display text-2xl font-semibold text-ink mb-3">Ready to work through PRIME?</h2>
+      <p class="text-ink-muted mb-6 max-w-[52ch]">
+        Schedule a 20-minute call to discuss which phase makes sense for where your company is right now.
+      </p>
+      <div class="flex flex-wrap gap-4 items-center">
+        <a href={CALENDLY} class="bg-accent hover:bg-accent-deep text-white px-6 py-3 rounded-[2px] font-medium transition-colors inline-flex items-center gap-2">
+          Schedule a consultation →
+        </a>
+        <a href="/contact/" class="text-ink hover:text-accent border-b border-ink hover:border-accent px-2 py-3 font-medium transition-colors">
+          Send a message
+        </a>
+      </div>
+    </section>
+
+  </div>
+</PageLayout>

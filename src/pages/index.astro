@@ -1,32 +1,27 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import SchemaOrg from "../components/SchemaOrg.astro";
 
-const calendlyUrl =
-  "https://calendly.com/ronankeane/ai-revenue-acceleration-readiness-discovery-call";
+const CALENDLY = "https://calendly.com/ronankeane/ai-revenue-acceleration-readiness-discovery-call";
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <BaseLayout
   title="Ronan Keane — AI Strategy & Implementation Consultant"
   description="I help SMB and mid-market companies turn stalled AI initiatives into operational advantage. North Carolina-based. PRIME framework for AI implementation."
 >
-  <nav class="border-b border-rule px-6 md:px-12 py-5 backdrop-blur-md bg-bg/85 sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <a href="/" class="font-display text-xl font-semibold tracking-tight text-ink">
-        Ronan Keane<span class="text-accent">.</span>
-      </a>
-      <div class="hidden md:flex items-center gap-8 font-mono text-sm">
-        <a href="/framework/" class="lowercase text-ink-muted hover:text-ink transition-colors">framework</a>
-        <a href="/services/" class="lowercase text-ink-muted hover:text-ink transition-colors">services</a>
-        <a href="/case-studies/" class="lowercase text-ink-muted hover:text-ink transition-colors">case studies</a>
-        <a
-          href={calendlyUrl}
-          class="bg-ink text-bg px-4 py-2 rounded-[2px] text-xs font-medium uppercase tracking-widest hover:bg-accent transition-colors"
-        >
-          Schedule a call
-        </a>
-      </div>
-    </div>
-  </nav>
+  <Fragment slot="head">
+    <SchemaOrg
+      url={canonical}
+      title="Ronan Keane — AI Strategy & Implementation Consultant"
+      description="I help SMB and mid-market companies turn stalled AI initiatives into operational advantage. North Carolina-based. PRIME framework for AI implementation."
+      schemaTypes={["Person", "ProfessionalService"]}
+    />
+  </Fragment>
+
+  <Nav />
 
   <header class="px-6 md:px-12 py-24 md:py-32 max-w-6xl mx-auto">
     <p class="font-mono text-xs uppercase tracking-widest text-accent mb-6 inline-flex items-center gap-2">
@@ -44,7 +39,7 @@ const calendlyUrl =
 
     <div class="flex flex-wrap gap-4 items-center">
       <a
-        href={calendlyUrl}
+        href={CALENDLY}
         class="bg-accent hover:bg-accent-deep text-white px-7 py-4 rounded-[2px] font-medium transition-all hover:-translate-y-px inline-flex items-center gap-2"
       >
         Schedule a consultation →
@@ -61,10 +56,5 @@ const calendlyUrl =
     </div>
   </header>
 
-  <footer class="border-t border-rule px-6 md:px-12 py-10 max-w-6xl mx-auto font-mono text-xs uppercase tracking-widest text-ink-subtle">
-    <div class="flex justify-between flex-wrap gap-4">
-      <div>ronankeane.com · phase 2 scaffold</div>
-      <div>Geist / Geist Mono · burnt orange #C2410C</div>
-    </div>
-  </footer>
+  <Footer />
 </BaseLayout>

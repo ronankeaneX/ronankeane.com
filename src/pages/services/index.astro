@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import SchemaOrg from "../../components/SchemaOrg.astro";
+
+const canonical = new URL("/services/", Astro.site).toString();
+
+const services = await getCollection("services", ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true,
+);
+---
+
+<PageLayout
+  title="AI Consulting Services — Ronan Keane"
+  description="AI strategy, implementation, and training services for SMB and mid-market B2B companies. Hands-on consulting, not theory. PRIME framework for measurable results."
+>
+  <SchemaOrg
+    slot="head"
+    url={canonical}
+    title="AI Consulting Services — Ronan Keane"
+    description="AI strategy, implementation, and training services for SMB and mid-market B2B companies. Hands-on consulting, not theory. PRIME framework for measurable results."
+    schemaTypes={["WebPage"]}
+    breadcrumbs={[{ name: "Services", url: canonical }]}
+  />
+
+  <div class="max-w-3xl mx-auto px-6 md:px-12 py-16 md:py-24">
+
+    <header class="mb-14">
+      <p class="font-mono text-xs uppercase tracking-widest text-accent mb-4 inline-flex items-center gap-2">
+        <span class="w-6 h-px bg-accent"></span>
+        /services
+      </p>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-ink mb-6">
+        AI Consulting Services
+      </h1>
+      <p class="text-lg text-ink-muted leading-relaxed max-w-[56ch]">
+        Hands-on AI strategy, implementation, and training for B2B companies. Every engagement follows the PRIME framework — from opportunity mapping to measurable adoption.
+      </p>
+    </header>
+
+    {services.length === 0 ? (
+      <p class="text-ink-muted">Service pages coming soon.</p>
+    ) : (
+      <ul class="divide-y divide-rule">
+        {services.map((svc) => (
+          <li class="py-8 first:pt-0">
+            <a href={`/services/${svc.id}/`} class="group block">
+              <p class="font-mono text-xs uppercase tracking-widest text-accent mb-2">{svc.data.service_type}</p>
+              <h2 class="font-display text-xl font-semibold text-ink group-hover:text-accent transition-colors mb-2">
+                {svc.data.title}
+              </h2>
+              <p class="text-ink-muted text-sm leading-relaxed max-w-[60ch]">{svc.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+
+  </div>
+</PageLayout>
