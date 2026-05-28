@@ -74,7 +74,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
       <div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-rule border border-rule rounded-[2px] mb-12 overflow-hidden">
         {key_metrics.map(({ label, value }) => (
           <div class="bg-bg px-6 py-7">
-            <p class="font-display text-4xl font-semibold text-accent leading-none mb-2">{value}</p>
+            <p class="font-display text-2xl md:text-3xl font-semibold text-accent leading-tight mb-2 break-words">{value}</p>
             <p class="font-mono text-xs uppercase tracking-widest text-ink-muted">{label}</p>
           </div>
         ))}
